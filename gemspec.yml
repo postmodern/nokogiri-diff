@@ -1,0 +1,21 @@
+name: nokogiri-diff
+version: 0.1.0
+summary: Calculate the differences between two XML/HTML documents.
+description:
+  Nokogiri::Diff adds the ability to calculate the differences (added
+  or removed nodes) between two XML/HTML documents.
+
+license: MIT
+authors: Postmodern
+email: postmodern.mod3@gmail.com
+homepage: http://github.com/postmodern/nokogiri-diff
+has_yard: true
+
+dependencies:
+  tdiff: ~> 0.3.0
+  nokogiri: ~> 1.4.1
+
+development_dependencies:
+  ore-tasks: ~> 0.3.0
+  rspec: ~> 2.0.0
+  yard: ~> 0.6.0

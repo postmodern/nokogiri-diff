@@ -1,0 +1,1 @@
+require 'nokogiri/diff/node'
