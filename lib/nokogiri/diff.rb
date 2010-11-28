@@ -1,1 +1,1 @@
-require 'nokogiri/diff/node'
+require 'nokogiri/diff/xml'
