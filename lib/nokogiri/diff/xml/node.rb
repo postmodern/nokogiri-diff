@@ -19,8 +19,6 @@ class Nokogiri::XML::Node
   def tdiff_equal(node)
     if (self.class == node.class)
       case node
-      when Nokogiri::XML::Document
-        true
       when Nokogiri::XML::Attr
         (self.name == node.name && self.value == node.value)
       when Nokogiri::XML::Element, Nokogiri::XML::DTD
