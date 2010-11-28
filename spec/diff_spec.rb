@@ -236,12 +236,12 @@ describe "nokogiri/diff" do
     end
 
     it "should determine only when attributes are removed" do
-      changes = doc.at('div').diff(added_attr.at('div'), :removed => true).to_a
+      changes = added_attr.at('div').diff(removed_attr.at('div'), :removed => true).to_a
 
       changes.length.should == 1
 
       changes[0][0].should == '-'
-      changes[0][1].should == doc.at('//p/@id')
+      changes[0][1].should == added_attr.at('//p/@id')
     end
   end
 end
