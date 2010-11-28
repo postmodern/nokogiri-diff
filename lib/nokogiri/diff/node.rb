@@ -23,7 +23,7 @@ class Nokogiri::XML::Node
         self.root.tdiff_equal(node.root)
       when Nokogiri::XML::Attr
         (self.name == node.name && self.value == node.value)
-      when Nokogiri::XML::Element
+      when Nokogiri::XML::Element, Nokogiri::XML::DTD
         self.name == node.name
       when Nokogiri::XML::Text
         self.text == node.text
