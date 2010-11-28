@@ -226,7 +226,7 @@ describe "nokogiri/diff" do
       changes[0][1].should == doc.at('//p/text()')
     end
 
-    it "should determine only when elements are added" do
+    it "should determine only when elements are removed" do
       changes = doc.at('div').diff(removed_element.at('div'), :removed => true).to_a
 
       changes.length.should == 1
@@ -235,7 +235,7 @@ describe "nokogiri/diff" do
       changes[0][1].should == doc.at('//div/p')
     end
 
-    it "should determine only when attributes are added" do
+    it "should determine only when attributes are removed" do
       changes = doc.at('div').diff(added_attr.at('div'), :removed => true).to_a
 
       changes.length.should == 1
