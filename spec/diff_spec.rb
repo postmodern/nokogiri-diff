@@ -14,6 +14,10 @@ describe "nokogiri/diff" do
   let(:changed_attr_name) { Nokogiri::XML('<div><p i="1">one</p></div>') }
   let(:changed_attr_value) { Nokogiri::XML('<div><p id="2">one</p></div>') }
 
+  let(:removed_text) { Nokogiri::XML('<div><p></p>two</div>') }
+  let(:removed_element) { Nokogiri::XML('<div></div>') }
+  let(:removed_attr) { Nokogiri::XML('<div><p>one</p></div>') }
+
   it "should add #diff to Nokogiri::XML::Docuemnt" do
     doc.should respond_to(:diff)
   end
@@ -136,6 +140,48 @@ describe "nokogiri/diff" do
 
     changes[1][0].should == '+'
     changes[1][1].should == changed_attr_value.at('p/@id')
+
+    changes[2][0].should == ' '
+    changes[2][1].should == added_attr.at('p/text()')
+  end
+
+  it "should determine when text nodes are removed" do
+    changes = added_text.at('div').diff(removed_text.at('div')).to_a
+
+    changes.length.should == 3
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_text.at('p')
+
+    changes[1][0].should == ' '
+    changes[1][1].should == added_text.at('div/text()')
+
+    changes[2][0].should == '-'
+    changes[2][1].should == added_text.at('p/text()')
+  end
+
+  it "should determine when elements are removed" do
+    changes = added_element.at('div').diff(removed_element.at('div')).to_a
+
+    changes.length.should == 2
+
+    changes[0][0].should == '-'
+    changes[0][1].should == added_element.at('//p[1]')
+
+    changes[1][0].should == '-'
+    changes[1][1].should == added_element.at('//p[2]')
+  end
+
+  it "should determine when attributes are removed" do
+    changes = added_attr.at('div').diff(removed_attr.at('div')).to_a
+
+    changes.length.should == 3
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_attr.at('p')
+
+    changes[1][0].should == '-'
+    changes[1][1].should == added_attr.at('p/@id')
 
     changes[2][0].should == ' '
     changes[2][1].should == added_attr.at('p/text()')
