@@ -186,4 +186,62 @@ describe "nokogiri/diff" do
     changes[2][0].should == ' '
     changes[2][1].should == added_attr.at('p/text()')
   end
+
+  context ":added" do
+    it "should determine only when text nodes are added" do
+      changes = doc.at('div').diff(added_text.at('div'), :added => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '+'
+      changes[0][1].should == added_text.at('div/text()')
+    end
+
+    it "should determine only when elements are added" do
+      changes = doc.at('div').diff(added_element.at('div'), :added => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '+'
+      changes[0][1].should == added_element.at('div/p[2]')
+    end
+
+    it "should determine only when attributes are added" do
+      changes = doc.at('div').diff(added_attr.at('div'), :added => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '+'
+      changes[0][1].should == added_attr.at('//p/@id')
+    end
+  end
+
+  context ":removed" do
+    it "should determine only when text nodes are removed" do
+      changes = doc.at('div').diff(removed_text.at('div'), :removed => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '-'
+      changes[0][1].should == doc.at('div/text()')
+    end
+
+    it "should determine only when elements are added" do
+      changes = doc.at('div').diff(removed_element.at('div'), :removed => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '-'
+      changes[0][1].should == doc.at('div/p')
+    end
+
+    it "should determine only when attributes are added" do
+      changes = doc.at('div').diff(added_attr.at('div'), :removed => true).to_a
+
+      changes.length.should == 1
+
+      changes[0][0].should == '-'
+      changes[0][1].should == doc.at('//p/@id')
+    end
+  end
 end
