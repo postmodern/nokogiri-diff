@@ -12,7 +12,7 @@ homepage: http://github.com/postmodern/nokogiri-diff
 has_yard: true
 
 dependencies:
-  tdiff: ~> 0.3.1
+  tdiff: ~> 0.3.2
   nokogiri: ~> 1.4.1
 
 development_dependencies:

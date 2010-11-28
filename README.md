@@ -15,7 +15,7 @@ removed nodes) between two XML/HTML documents.
 
 ## Requirements
 
-* [tdiff](http://github.com/postmodern/tdiff) ~> 0.3.1
+* [tdiff](http://github.com/postmodern/tdiff) ~> 0.3.2
 * [nokogiri](http://nokogiri.rubyforge.org/) ~> 1.4.1
 
 ## Install
