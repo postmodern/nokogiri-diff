@@ -20,7 +20,7 @@ class Nokogiri::XML::Node
     if (self.class == node.class)
       case node
       when Nokogiri::XML::Document
-        self.root.tdiff_equal(node.root)
+        true
       when Nokogiri::XML::Attr
         (self.name == node.name && self.value == node.value)
       when Nokogiri::XML::Element, Nokogiri::XML::DTD
