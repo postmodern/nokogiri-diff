@@ -52,13 +52,13 @@ describe "nokogiri/diff" do
     changes.length.should == 3
 
     changes[0][0].should == ' '
-    changes[0][1].should == doc.at('div/p')
+    changes[0][1].should == doc.at('//p')
 
     changes[1][0].should == '+'
-    changes[1][1].should == added_text.at('div/text()[1]')
+    changes[1][1].should == added_text.at('//div/text()')
 
     changes[2][0].should == ' '
-    changes[2][1].should == doc.at('div/p/text()')
+    changes[2][1].should == doc.at('//p/text()')
   end
 
   it "should determine when elements are added" do
@@ -67,16 +67,16 @@ describe "nokogiri/diff" do
     changes.length.should == 4
 
     changes[0][0].should == '+'
-    changes[0][1].should == added_element.at('div/p[1]')
+    changes[0][1].should == added_element.at('//p[1]')
 
     changes[1][0].should == ' '
-    changes[1][1].should == doc.at('div/p')
+    changes[1][1].should == doc.at('//p')
 
     changes[2][0].should == '-'
-    changes[2][1].should == doc.at('div/p/text()')
+    changes[2][1].should == doc.at('//p/text()')
 
     changes[3][0].should == '+'
-    changes[3][1].should == added_element.at('div/p[2]/text()')
+    changes[3][1].should == added_element.at('//p[2]/text()')
   end
 
   it "should determine when attributes are added" do
@@ -85,10 +85,10 @@ describe "nokogiri/diff" do
     changes.length.should == 2
 
     changes[0][0].should == '+'
-    changes[0][1].should == added_attr.at('div/p/@id')
+    changes[0][1].should == added_attr.at('//p/@id')
 
     changes[1][0].should == ' '
-    changes[1][1].should == doc.at('div/p/text()')
+    changes[1][1].should == doc.at('//p/text()')
   end
 
   it "should determine when text nodes differ" do
@@ -97,10 +97,10 @@ describe "nokogiri/diff" do
     changes.length.should == 2
 
     changes[0][0].should == '-'
-    changes[0][1].should == doc.at('p/text()')
+    changes[0][1].should == doc.at('//p/text()')
 
     changes[1][0].should == '+'
-    changes[1][1].should == changed_text.at('p/text()')
+    changes[1][1].should == changed_text.at('//p/text()')
   end
 
   it "should determine when element names differ" do
@@ -121,13 +121,13 @@ describe "nokogiri/diff" do
     changes.length.should == 3
 
     changes[0][0].should == '-'
-    changes[0][1].should == added_attr.at('p/@id')
+    changes[0][1].should == added_attr.at('//p/@id')
 
     changes[1][0].should == '+'
-    changes[1][1].should == changed_attr_name.at('p/@i')
+    changes[1][1].should == changed_attr_name.at('//p/@i')
 
     changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('p/text()')
+    changes[2][1].should == added_attr.at('//p/text()')
   end
 
   it "should determine when attribute values differ" do
@@ -136,13 +136,13 @@ describe "nokogiri/diff" do
     changes.length.should == 3
 
     changes[0][0].should == '-'
-    changes[0][1].should == added_attr.at('p/@id')
+    changes[0][1].should == added_attr.at('//p/@id')
 
     changes[1][0].should == '+'
-    changes[1][1].should == changed_attr_value.at('p/@id')
+    changes[1][1].should == changed_attr_value.at('//p/@id')
 
     changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('p/text()')
+    changes[2][1].should == added_attr.at('//p/text()')
   end
 
   it "should determine when text nodes are removed" do
@@ -154,10 +154,10 @@ describe "nokogiri/diff" do
     changes[0][1].should == added_text.at('p')
 
     changes[1][0].should == ' '
-    changes[1][1].should == added_text.at('div/text()')
+    changes[1][1].should == added_text.at('//div/text()')
 
     changes[2][0].should == '-'
-    changes[2][1].should == added_text.at('p/text()')
+    changes[2][1].should == added_text.at('//p/text()')
   end
 
   it "should determine when elements are removed" do
@@ -181,10 +181,10 @@ describe "nokogiri/diff" do
     changes[0][1].should == added_attr.at('p')
 
     changes[1][0].should == '-'
-    changes[1][1].should == added_attr.at('p/@id')
+    changes[1][1].should == added_attr.at('//p/@id')
 
     changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('p/text()')
+    changes[2][1].should == added_attr.at('//p/text()')
   end
 
   context ":added" do
@@ -194,7 +194,7 @@ describe "nokogiri/diff" do
       changes.length.should == 1
 
       changes[0][0].should == '+'
-      changes[0][1].should == added_text.at('div/text()')
+      changes[0][1].should == added_text.at('//div/text()')
     end
 
     it "should determine only when elements are added" do
@@ -203,7 +203,7 @@ describe "nokogiri/diff" do
       changes.length.should == 1
 
       changes[0][0].should == '+'
-      changes[0][1].should == added_element.at('div/p[2]')
+      changes[0][1].should == added_element.at('//div/p[2]')
     end
 
     it "should determine only when attributes are added" do
@@ -223,7 +223,7 @@ describe "nokogiri/diff" do
       changes.length.should == 1
 
       changes[0][0].should == '-'
-      changes[0][1].should == doc.at('div/text()')
+      changes[0][1].should == doc.at('//p/text()')
     end
 
     it "should determine only when elements are added" do
@@ -232,7 +232,7 @@ describe "nokogiri/diff" do
       changes.length.should == 1
 
       changes[0][0].should == '-'
-      changes[0][1].should == doc.at('div/p')
+      changes[0][1].should == doc.at('//div/p')
     end
 
     it "should determine only when attributes are added" do
