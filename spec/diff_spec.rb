@@ -34,6 +34,13 @@ describe "nokogiri/diff" do
     added_attr.at('p/@id').should respond_to(:diff)
   end
 
+  it "should not compare the Document objects" do
+    change = doc.diff(doc).first
+
+    change[0].should == ' '
+    change[1].should == doc.root
+  end
+
   it "should determine when two different documents are identical" do
     doc.diff(Nokogiri::XML(contents)).all? { |change,node|
       change == ' '
