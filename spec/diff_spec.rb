@@ -56,133 +56,91 @@ describe "nokogiri/diff" do
   it "should determine when text nodes are added" do
     changes = doc.at('div').diff(added_text.at('div')).to_a
 
-    changes.length.should == 3
+    changes.length.should == 4
 
     changes[0][0].should == ' '
-    changes[0][1].should == doc.at('//p')
+    changes[0][1].should == doc.at('div')
 
-    changes[1][0].should == '+'
-    changes[1][1].should == added_text.at('//div/text()')
+    changes[1][0].should == ' '
+    changes[1][1].should == doc.at('//p')
 
-    changes[2][0].should == ' '
-    changes[2][1].should == doc.at('//p/text()')
+    changes[2][0].should == '+'
+    changes[2][1].should == added_text.at('//div/text()')
+
+    changes[3][0].should == ' '
+    changes[3][1].should == doc.at('//p/text()')
   end
 
   it "should determine when elements are added" do
     changes = doc.at('div').diff(added_element.at('div')).to_a
 
-    changes.length.should == 4
+    changes.length.should == 5
 
-    changes[0][0].should == '+'
-    changes[0][1].should == added_element.at('//p[1]')
+    changes[0][0].should == ' '
+    changes[0][1].should == doc.at('div')
 
-    changes[1][0].should == ' '
-    changes[1][1].should == doc.at('//p')
+    changes[1][0].should == '+'
+    changes[1][1].should == added_element.at('//p[1]')
 
-    changes[2][0].should == '-'
-    changes[2][1].should == doc.at('//p/text()')
+    changes[2][0].should == ' '
+    changes[2][1].should == doc.at('//p')
 
-    changes[3][0].should == '+'
-    changes[3][1].should == added_element.at('//p[2]/text()')
+    changes[3][0].should == '-'
+    changes[3][1].should == doc.at('//p/text()')
+
+    changes[4][0].should == '+'
+    changes[4][1].should == added_element.at('//p[2]/text()')
   end
 
   it "should determine when attributes are added" do
     changes = doc.at('p').diff(added_attr.at('p')).to_a
 
-    changes.length.should == 2
+    changes.length.should == 3
 
-    changes[0][0].should == '+'
-    changes[0][1].should == added_attr.at('//p/@id')
+    changes[0][0].should == ' '
+    changes[0][1].should == doc.at('p')
 
-    changes[1][0].should == ' '
-    changes[1][1].should == doc.at('//p/text()')
+    changes[1][0].should == '+'
+    changes[1][1].should == added_attr.at('//p/@id')
+
+    changes[2][0].should == ' '
+    changes[2][1].should == doc.at('//p/text()')
   end
 
   it "should determine when text nodes differ" do
     changes = doc.at('p').diff(changed_text.at('p')).to_a
 
-    changes.length.should == 2
+    changes.length.should == 3
 
-    changes[0][0].should == '-'
-    changes[0][1].should == doc.at('//p/text()')
+    changes[0][0].should == ' '
+    changes[0][1].should == doc.at('p')
 
-    changes[1][0].should == '+'
-    changes[1][1].should == changed_text.at('//p/text()')
+    changes[1][0].should == '-'
+    changes[1][1].should == doc.at('//p/text()')
+
+    changes[2][0].should == '+'
+    changes[2][1].should == changed_text.at('//p/text()')
   end
 
   it "should determine when element names differ" do
     changes = doc.at('div').diff(changed_element.at('div')).to_a
 
-    changes.length.should == 2
+    changes.length.should == 3
 
-    changes[0][0].should == '-'
-    changes[0][1].should == doc.at('p')
+    changes[0][0].should == ' '
+    changes[0][1].should == doc.at('div')
 
-    changes[1][0].should == '+'
-    changes[1][1].should == changed_element.at('span')
+    changes[1][0].should == '-'
+    changes[1][1].should == doc.at('p')
+
+    changes[2][0].should == '+'
+    changes[2][1].should == changed_element.at('span')
   end
 
   it "should determine when attribute names differ" do
     changes = added_attr.at('p').diff(changed_attr_name.at('p')).to_a
 
-    changes.length.should == 3
-
-    changes[0][0].should == '-'
-    changes[0][1].should == added_attr.at('//p/@id')
-
-    changes[1][0].should == '+'
-    changes[1][1].should == changed_attr_name.at('//p/@i')
-
-    changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('//p/text()')
-  end
-
-  it "should determine when attribute values differ" do
-    changes = added_attr.at('p').diff(changed_attr_value.at('p')).to_a
-
-    changes.length.should == 3
-
-    changes[0][0].should == '-'
-    changes[0][1].should == added_attr.at('//p/@id')
-
-    changes[1][0].should == '+'
-    changes[1][1].should == changed_attr_value.at('//p/@id')
-
-    changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('//p/text()')
-  end
-
-  it "should determine when text nodes are removed" do
-    changes = added_text.at('div').diff(removed_text.at('div')).to_a
-
-    changes.length.should == 3
-
-    changes[0][0].should == ' '
-    changes[0][1].should == added_text.at('p')
-
-    changes[1][0].should == ' '
-    changes[1][1].should == added_text.at('//div/text()')
-
-    changes[2][0].should == '-'
-    changes[2][1].should == added_text.at('//p/text()')
-  end
-
-  it "should determine when elements are removed" do
-    changes = added_element.at('div').diff(removed_element.at('div')).to_a
-
-    changes.length.should == 2
-
-    changes[0][0].should == '-'
-    changes[0][1].should == added_element.at('//p[1]')
-
-    changes[1][0].should == '-'
-    changes[1][1].should == added_element.at('//p[2]')
-  end
-
-  it "should determine when attributes are removed" do
-    changes = added_attr.at('div').diff(removed_attr.at('div')).to_a
-
-    changes.length.should == 3
+    changes.length.should == 4
 
     changes[0][0].should == ' '
     changes[0][1].should == added_attr.at('p')
@@ -190,8 +148,80 @@ describe "nokogiri/diff" do
     changes[1][0].should == '-'
     changes[1][1].should == added_attr.at('//p/@id')
 
+    changes[2][0].should == '+'
+    changes[2][1].should == changed_attr_name.at('//p/@i')
+
+    changes[3][0].should == ' '
+    changes[3][1].should == added_attr.at('//p/text()')
+  end
+
+  it "should determine when attribute values differ" do
+    changes = added_attr.at('p').diff(changed_attr_value.at('p')).to_a
+
+    changes.length.should == 4
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_attr.at('p')
+
+    changes[1][0].should == '-'
+    changes[1][1].should == added_attr.at('//p/@id')
+
+    changes[2][0].should == '+'
+    changes[2][1].should == changed_attr_value.at('//p/@id')
+
+    changes[3][0].should == ' '
+    changes[3][1].should == added_attr.at('//p/text()')
+  end
+
+  it "should determine when text nodes are removed" do
+    changes = added_text.at('div').diff(removed_text.at('div')).to_a
+
+    changes.length.should == 4
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_text.at('div')
+
+    changes[1][0].should == ' '
+    changes[1][1].should == added_text.at('p')
+
     changes[2][0].should == ' '
-    changes[2][1].should == added_attr.at('//p/text()')
+    changes[2][1].should == added_text.at('//div/text()')
+
+    changes[3][0].should == '-'
+    changes[3][1].should == added_text.at('//p/text()')
+  end
+
+  it "should determine when elements are removed" do
+    changes = added_element.at('div').diff(removed_element.at('div')).to_a
+
+    changes.length.should == 3
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_element.at('div')
+
+    changes[1][0].should == '-'
+    changes[1][1].should == added_element.at('//p[1]')
+
+    changes[2][0].should == '-'
+    changes[2][1].should == added_element.at('//p[2]')
+  end
+
+  it "should determine when attributes are removed" do
+    changes = added_attr.at('div').diff(removed_attr.at('div')).to_a
+
+    changes.length.should == 4
+
+    changes[0][0].should == ' '
+    changes[0][1].should == added_attr.at('div')
+
+    changes[1][0].should == ' '
+    changes[1][1].should == added_attr.at('p')
+
+    changes[2][0].should == '-'
+    changes[2][1].should == added_attr.at('//p/@id')
+
+    changes[3][0].should == ' '
+    changes[3][1].should == added_attr.at('//p/text()')
   end
 
   context ":added" do
