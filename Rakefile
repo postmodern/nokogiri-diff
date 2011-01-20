@@ -21,6 +21,7 @@ rescue LoadError => e
     abort "Please run `gem install rspec` to install RSpec."
   end
 end
+task :test => :spec
 task :default => :spec
 
 begin
