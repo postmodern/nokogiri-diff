@@ -61,7 +61,7 @@ Only find the removed nodes:
 
 * [ruby](http://www.ruby-lang.org/) >= 1.8.7
 * [tdiff](http://github.com/postmodern/tdiff) ~> 0.3.2
-* [nokogiri](http://nokogiri.rubyforge.org/) ~> 1.4.1
+* [nokogiri](http://nokogiri.rubyforge.org/) ~> 1.5
 
 ## Install
 
