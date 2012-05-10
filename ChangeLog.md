@@ -1,3 +1,7 @@
+### 0.1.1 / 2012-05-09
+
+* Require nokogiri ~> 1.5.
+
 ### 0.1.0 / 2010-11-29
 
 * Initial release:
