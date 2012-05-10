@@ -1,9 +1,9 @@
 # nokogiri-diff
 
-* [Source](http://github.com/postmodern/nokogiri-diff)
-* [Issues](http://github.com/postmodern/nokogiri-diff/issues)
+* [Source](https://github.com/postmodern/nokogiri-diff)
+* [Issues](https://github.com/postmodern/nokogiri-diff/issues)
 * [Documentation](http://rubydoc.info/gems/nokogiri-diff/frames)
-* Postmodern (postmodern.mod3 at gmail.com)
+* [Email](mailto:postmodern.mod3 at gmail.com)
 
 ## Description
 
