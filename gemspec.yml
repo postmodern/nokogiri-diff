@@ -1,5 +1,5 @@
 name: nokogiri-diff
-version: 0.1.0
+version: 0.1.1
 summary: Calculate the differences between two XML/HTML documents.
 description:
   Nokogiri::Diff adds the ability to calculate the differences (added
