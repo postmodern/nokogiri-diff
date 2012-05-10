@@ -69,6 +69,6 @@ Only find the removed nodes:
 
 ## Copyright
 
-Copyright (c) 2010 Hal Brodigan
+Copyright (c) 2010-2012 Hal Brodigan
 
 See {file:LICENSE.txt} for details.
