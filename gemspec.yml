@@ -8,7 +8,7 @@ description:
 license: MIT
 authors: Postmodern
 email: postmodern.mod3@gmail.com
-homepage: http://github.com/postmodern/nokogiri-diff
+homepage: https://github.com/postmodern/nokogiri-diff
 has_yard: true
 
 required_ruby_version: ">= 1.8.7"
