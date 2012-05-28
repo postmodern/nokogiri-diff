@@ -7,11 +7,10 @@ class Nokogiri::XML::Node
   include TDiff::Unordered
 
   #
-  # Compares two XML/HTML nodes.
+  # Compares the XML/HTML node with another.
   #
-  # @param [Nokogiri::XML::Node] node1
-  #
-  # @param [Nokogiri::XML::Node] node2
+  # @param [Nokogiri::XML::Node] node
+  #   The other XMl/HTML node.
   #
   # @return [Boolean]
   #   Specifies whether the two nodes are equal.
@@ -34,9 +33,10 @@ class Nokogiri::XML::Node
   end
 
   #
-  # Enumerates over the children of a XML/HTML node.
+  # Enumerates over the children of another XML/HTML node.
   #
   # @param [Nokogiri::XML::Node] node
+  #   The other XMl/HTML node.
   # 
   # @yield [child]
   #   The given block will be passed every child of the node.
