@@ -1,6 +1,7 @@
 ### 0.1.2 / 2012-05-28
 
 * Require tdiff ~> 0.3, >= 0.3.2.
+* Added {Nokogiri::Diff::VERSION}.
 * Replaced ore-tasks with
   [rubygems-tasks](https://github.com/postmodern/rubygems-tasks#readme).
 
