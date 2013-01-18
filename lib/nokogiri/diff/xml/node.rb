@@ -22,7 +22,7 @@ class Nokogiri::XML::Node
         (self.name == node.name && self.value == node.value)
       when Nokogiri::XML::Element, Nokogiri::XML::DTD
         self.name == node.name
-      when Nokogiri::XML::Text
+      when Nokogiri::XML::Text, Nokogiri::XML::Comment
         self.text == node.text
       else
         false
