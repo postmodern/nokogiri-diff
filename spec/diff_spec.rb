@@ -3,20 +3,22 @@ require 'nokogiri/diff'
 
 describe "nokogiri/diff" do
   let(:contents) { '<div><p>one</p></div>' }
-  let(:doc) { Nokogiri::XML(contents) }
+  let(:doc)      { Nokogiri::XML(contents) }
 
-  let(:added_text) { Nokogiri::XML('<div><p>one</p>two</div>') }
+  let(:added_text)    { Nokogiri::XML('<div><p>one</p>two</div>') }
   let(:added_element) { Nokogiri::XML('<div><p>one</p><p>two</p></div>') }
-  let(:added_attr) { Nokogiri::XML('<div><p id="1">one</p></div>') }
+  let(:added_attr)    { Nokogiri::XML('<div><p id="1">one</p></div>') }
+  let(:added_attrs)   { Nokogiri::XML('<div><p id="1" class="2">one</p></div>') }
 
-  let(:changed_text) { Nokogiri::XML('<div><p>two</p></div>') }
-  let(:changed_element) { Nokogiri::XML('<div><span>one</span></div>') }
-  let(:changed_attr_name) { Nokogiri::XML('<div><p i="1">one</p></div>') }
+  let(:changed_text)       { Nokogiri::XML('<div><p>two</p></div>') }
+  let(:changed_element)    { Nokogiri::XML('<div><span>one</span></div>') }
+  let(:changed_attr_name)  { Nokogiri::XML('<div><p i="1">one</p></div>') }
   let(:changed_attr_value) { Nokogiri::XML('<div><p id="2">one</p></div>') }
+  let(:changed_attr_order) { Nokogiri::XML('<div><p class="2" id="1">one</p></div>') }
 
-  let(:removed_text) { Nokogiri::XML('<div><p></p>two</div>') }
+  let(:removed_text)    { Nokogiri::XML('<div><p></p>two</div>') }
   let(:removed_element) { Nokogiri::XML('<div></div>') }
-  let(:removed_attr) { Nokogiri::XML('<div><p>one</p></div>') }
+  let(:removed_attr)    { Nokogiri::XML('<div><p>one</p></div>') }
 
   it "should add #diff to Nokogiri::XML::Docuemnt" do
     doc.should respond_to(:diff)
@@ -90,6 +92,12 @@ describe "nokogiri/diff" do
 
     changes[4][0].should == '+'
     changes[4][1].should == added_element.at('//p[2]/text()')
+  end
+
+  it "should ignore when attribute order changes" do
+    changes = added_attrs.at('p').diff(changed_attr_order.at('p')).to_a
+
+    changes.all? { |change| change[0] == ' ' }.should be_true
   end
 
   it "should determine when attributes are added" do
@@ -204,6 +212,9 @@ describe "nokogiri/diff" do
 
     changes[2][0].should == '-'
     changes[2][1].should == added_element.at('//p[2]')
+  end
+
+  it "should ignore when attributes change order" do
   end
 
   it "should determine when attributes are removed" do

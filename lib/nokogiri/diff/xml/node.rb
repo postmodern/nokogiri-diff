@@ -48,7 +48,7 @@ class Nokogiri::XML::Node
   #
   def tdiff_each_child(node,&block)
     if node.kind_of?(Nokogiri::XML::Element)
-      node.attribute_nodes.each(&block)
+      node.attribute_nodes.sort_by(&:name).each(&block)
     end
 
     node.children.each(&block)
