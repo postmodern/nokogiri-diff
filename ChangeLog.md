@@ -1,3 +1,8 @@
+### 0.2.0 / 2013-04-22
+
+* {Nokogiri::XML::Node#tdiff_each_child} now sorts attributes by name, so that
+  changes in attribute order is ignored.
+
 ### 0.1.2 / 2012-05-28
 
 * Require tdiff ~> 0.3, >= 0.3.2.
