@@ -82,7 +82,7 @@ class Nokogiri::XML::Node
   #   If no block was given, an Enumerator object will be returned.
   #
   def diff(other,options={},&block)
-    return enum_for(:diff,other,options) unless block
+    return enum_for(__method__,other,options) unless block
 
     if (options[:added] || options[:removed])
       tdiff_unordered(other) do |change,node|
