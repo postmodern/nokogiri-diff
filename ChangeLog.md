@@ -1,7 +1,9 @@
 ### 0.2.0 / 2013-04-22
 
 * {Nokogiri::XML::Node#tdiff_each_child} now sorts attributes by name, so that
-  changes in attribute order is ignored.
+  changes in attribute order is ignored. (thanks @bhollis)
+* {Nokogiri::XML::Node#tdiff_equal} now supports `Nokogiri::XML::Comment`
+  and `Nokogiri::XML::ProcessingInstruction` objects. (thanks @bhollis)
 
 ### 0.1.2 / 2012-05-28
 
