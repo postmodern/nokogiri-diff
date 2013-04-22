@@ -86,10 +86,8 @@ class Nokogiri::XML::Node
 
     if (options[:added] || options[:removed])
       tdiff_unordered(other) do |change,node|
-        if (change == '+' && options[:added])
-          yield change, node
-        elsif (change == '-' && options[:removed])
-          yield change, node
+        if    (change == '+' && options[:added])   then yield change, node
+        elsif (change == '-' && options[:removed]) then yield change, node
         end
       end
     else
