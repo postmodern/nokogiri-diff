@@ -5,7 +5,9 @@ description:
   or removed nodes) between two XML/HTML documents.
 
 license: MIT
-authors: Postmodern
+authors:
+  Postmodern
+  Ram Laxman Yadav
 email: postmodern.mod3@gmail.com
 homepage: https://github.com/postmodern/nokogiri-diff#readme
 has_yard: true
