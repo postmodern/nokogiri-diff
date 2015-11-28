@@ -21,197 +21,197 @@ describe "nokogiri/diff" do
   let(:removed_attr)    { Nokogiri::XML('<div><p>one</p></div>') }
 
   it "should add #diff to Nokogiri::XML::Docuemnt" do
-    doc.should respond_to(:diff)
+    expect(doc).to respond_to(:diff)
   end
 
   it "should add #diff to Nokogiri::XML::Element" do
-    added_element.at('div').should respond_to(:diff)
+    expect(added_element.at('div')).to respond_to(:diff)
   end
 
   it "should add #diff to Nokogiri::XML::Text" do
-    added_text.at('p/text()').should respond_to(:diff)
+    expect(added_text.at('p/text()')).to respond_to(:diff)
   end
 
   it "should add #diff to Nokogiri::XML::Attr" do
-    added_attr.at('p/@id').should respond_to(:diff)
+    expect(added_attr.at('p/@id')).to respond_to(:diff)
   end
 
   it "should not compare the Document objects" do
     change = doc.diff(doc).first
 
-    change[0].should == ' '
-    change[1].should == doc.root
+    expect(change[0]).to eq(' ')
+    expect(change[1]).to eq(doc.root)
   end
 
   it "should determine when two different documents are identical" do
-    doc.diff(Nokogiri::XML(contents)).all? { |change,node|
+    expect(doc.diff(Nokogiri::XML(contents)).all? { |change,node|
       change == ' '
-    }.should == true
+    }).to eq(true)
   end
 
   it "should search down within Nokogiri::XML::Document objects" do
-    doc.diff(changed_text).any? { |change,node|
+    expect(doc.diff(changed_text).any? { |change,node|
       change != ' '
-    }.should == true
+    }).to eq(true)
   end
 
   it "should determine when text nodes are added" do
     changes = doc.at('div').diff(added_text.at('div')).to_a
 
-    changes.length.should == 4
+    expect(changes.length).to eq(4)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == doc.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(doc.at('div'))
 
-    changes[1][0].should == ' '
-    changes[1][1].should == doc.at('//p')
+    expect(changes[1][0]).to eq(' ')
+    expect(changes[1][1]).to eq(doc.at('//p'))
 
-    changes[2][0].should == '+'
-    changes[2][1].should == added_text.at('//div/text()')
+    expect(changes[2][0]).to eq('+')
+    expect(changes[2][1]).to eq(added_text.at('//div/text()'))
 
-    changes[3][0].should == ' '
-    changes[3][1].should == doc.at('//p/text()')
+    expect(changes[3][0]).to eq(' ')
+    expect(changes[3][1]).to eq(doc.at('//p/text()'))
   end
 
   it "should determine when elements are added" do
     changes = doc.at('div').diff(added_element.at('div')).to_a
 
-    changes.length.should == 5
+    expect(changes.length).to eq(5)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == doc.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(doc.at('div'))
 
-    changes[1][0].should == '+'
-    changes[1][1].should == added_element.at('//p[1]')
+    expect(changes[1][0]).to eq('+')
+    expect(changes[1][1]).to eq(added_element.at('//p[1]'))
 
-    changes[2][0].should == ' '
-    changes[2][1].should == doc.at('//p')
+    expect(changes[2][0]).to eq(' ')
+    expect(changes[2][1]).to eq(doc.at('//p'))
 
-    changes[3][0].should == '-'
-    changes[3][1].should == doc.at('//p/text()')
+    expect(changes[3][0]).to eq('-')
+    expect(changes[3][1]).to eq(doc.at('//p/text()'))
 
-    changes[4][0].should == '+'
-    changes[4][1].should == added_element.at('//p[2]/text()')
+    expect(changes[4][0]).to eq('+')
+    expect(changes[4][1]).to eq(added_element.at('//p[2]/text()'))
   end
 
   it "should ignore when attribute order changes" do
     changes = added_attrs.at('p').diff(changed_attr_order.at('p')).to_a
 
-    changes.all? { |change| change[0] == ' ' }.should be_true
+    expect(changes.all? { |change| change[0] == ' ' }).to be_truthy
   end
 
   it "should determine when attributes are added" do
     changes = doc.at('p').diff(added_attr.at('p')).to_a
 
-    changes.length.should == 3
+    expect(changes.length).to eq(3)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == doc.at('p')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(doc.at('p'))
 
-    changes[1][0].should == '+'
-    changes[1][1].should == added_attr.at('//p/@id')
+    expect(changes[1][0]).to eq('+')
+    expect(changes[1][1]).to eq(added_attr.at('//p/@id'))
 
-    changes[2][0].should == ' '
-    changes[2][1].should == doc.at('//p/text()')
+    expect(changes[2][0]).to eq(' ')
+    expect(changes[2][1]).to eq(doc.at('//p/text()'))
   end
 
   it "should determine when text nodes differ" do
     changes = doc.at('p').diff(changed_text.at('p')).to_a
 
-    changes.length.should == 3
+    expect(changes.length).to eq(3)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == doc.at('p')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(doc.at('p'))
 
-    changes[1][0].should == '-'
-    changes[1][1].should == doc.at('//p/text()')
+    expect(changes[1][0]).to eq('-')
+    expect(changes[1][1]).to eq(doc.at('//p/text()'))
 
-    changes[2][0].should == '+'
-    changes[2][1].should == changed_text.at('//p/text()')
+    expect(changes[2][0]).to eq('+')
+    expect(changes[2][1]).to eq(changed_text.at('//p/text()'))
   end
 
   it "should determine when element names differ" do
     changes = doc.at('div').diff(changed_element.at('div')).to_a
 
-    changes.length.should == 3
+    expect(changes.length).to eq(3)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == doc.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(doc.at('div'))
 
-    changes[1][0].should == '-'
-    changes[1][1].should == doc.at('p')
+    expect(changes[1][0]).to eq('-')
+    expect(changes[1][1]).to eq(doc.at('p'))
 
-    changes[2][0].should == '+'
-    changes[2][1].should == changed_element.at('span')
+    expect(changes[2][0]).to eq('+')
+    expect(changes[2][1]).to eq(changed_element.at('span'))
   end
 
   it "should determine when attribute names differ" do
     changes = added_attr.at('p').diff(changed_attr_name.at('p')).to_a
 
-    changes.length.should == 4
+    expect(changes.length).to eq(4)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == added_attr.at('p')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(added_attr.at('p'))
 
-    changes[1][0].should == '-'
-    changes[1][1].should == added_attr.at('//p/@id')
+    expect(changes[1][0]).to eq('-')
+    expect(changes[1][1]).to eq(added_attr.at('//p/@id'))
 
-    changes[2][0].should == '+'
-    changes[2][1].should == changed_attr_name.at('//p/@i')
+    expect(changes[2][0]).to eq('+')
+    expect(changes[2][1]).to eq(changed_attr_name.at('//p/@i'))
 
-    changes[3][0].should == ' '
-    changes[3][1].should == added_attr.at('//p/text()')
+    expect(changes[3][0]).to eq(' ')
+    expect(changes[3][1]).to eq(added_attr.at('//p/text()'))
   end
 
   it "should determine when attribute values differ" do
     changes = added_attr.at('p').diff(changed_attr_value.at('p')).to_a
 
-    changes.length.should == 4
+    expect(changes.length).to eq(4)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == added_attr.at('p')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(added_attr.at('p'))
 
-    changes[1][0].should == '-'
-    changes[1][1].should == added_attr.at('//p/@id')
+    expect(changes[1][0]).to eq('-')
+    expect(changes[1][1]).to eq(added_attr.at('//p/@id'))
 
-    changes[2][0].should == '+'
-    changes[2][1].should == changed_attr_value.at('//p/@id')
+    expect(changes[2][0]).to eq('+')
+    expect(changes[2][1]).to eq(changed_attr_value.at('//p/@id'))
 
-    changes[3][0].should == ' '
-    changes[3][1].should == added_attr.at('//p/text()')
+    expect(changes[3][0]).to eq(' ')
+    expect(changes[3][1]).to eq(added_attr.at('//p/text()'))
   end
 
   it "should determine when text nodes are removed" do
     changes = added_text.at('div').diff(removed_text.at('div')).to_a
 
-    changes.length.should == 4
+    expect(changes.length).to eq(4)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == added_text.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(added_text.at('div'))
 
-    changes[1][0].should == ' '
-    changes[1][1].should == added_text.at('p')
+    expect(changes[1][0]).to eq(' ')
+    expect(changes[1][1]).to eq(added_text.at('p'))
 
-    changes[2][0].should == ' '
-    changes[2][1].should == added_text.at('//div/text()')
+    expect(changes[2][0]).to eq(' ')
+    expect(changes[2][1]).to eq(added_text.at('//div/text()'))
 
-    changes[3][0].should == '-'
-    changes[3][1].should == added_text.at('//p/text()')
+    expect(changes[3][0]).to eq('-')
+    expect(changes[3][1]).to eq(added_text.at('//p/text()'))
   end
 
   it "should determine when elements are removed" do
     changes = added_element.at('div').diff(removed_element.at('div')).to_a
 
-    changes.length.should == 3
+    expect(changes.length).to eq(3)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == added_element.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(added_element.at('div'))
 
-    changes[1][0].should == '-'
-    changes[1][1].should == added_element.at('//p[1]')
+    expect(changes[1][0]).to eq('-')
+    expect(changes[1][1]).to eq(added_element.at('//p[1]'))
 
-    changes[2][0].should == '-'
-    changes[2][1].should == added_element.at('//p[2]')
+    expect(changes[2][0]).to eq('-')
+    expect(changes[2][1]).to eq(added_element.at('//p[2]'))
   end
 
   it "should ignore when attributes change order" do
@@ -220,47 +220,47 @@ describe "nokogiri/diff" do
   it "should determine when attributes are removed" do
     changes = added_attr.at('div').diff(removed_attr.at('div')).to_a
 
-    changes.length.should == 4
+    expect(changes.length).to eq(4)
 
-    changes[0][0].should == ' '
-    changes[0][1].should == added_attr.at('div')
+    expect(changes[0][0]).to eq(' ')
+    expect(changes[0][1]).to eq(added_attr.at('div'))
 
-    changes[1][0].should == ' '
-    changes[1][1].should == added_attr.at('p')
+    expect(changes[1][0]).to eq(' ')
+    expect(changes[1][1]).to eq(added_attr.at('p'))
 
-    changes[2][0].should == '-'
-    changes[2][1].should == added_attr.at('//p/@id')
+    expect(changes[2][0]).to eq('-')
+    expect(changes[2][1]).to eq(added_attr.at('//p/@id'))
 
-    changes[3][0].should == ' '
-    changes[3][1].should == added_attr.at('//p/text()')
+    expect(changes[3][0]).to eq(' ')
+    expect(changes[3][1]).to eq(added_attr.at('//p/text()'))
   end
 
   context ":added" do
     it "should determine only when text nodes are added" do
       changes = doc.at('div').diff(added_text.at('div'), :added => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '+'
-      changes[0][1].should == added_text.at('//div/text()')
+      expect(changes[0][0]).to eq('+')
+      expect(changes[0][1]).to eq(added_text.at('//div/text()'))
     end
 
     it "should determine only when elements are added" do
       changes = doc.at('div').diff(added_element.at('div'), :added => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '+'
-      changes[0][1].should == added_element.at('//div/p[2]')
+      expect(changes[0][0]).to eq('+')
+      expect(changes[0][1]).to eq(added_element.at('//div/p[2]'))
     end
 
     it "should determine only when attributes are added" do
       changes = doc.at('div').diff(added_attr.at('div'), :added => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '+'
-      changes[0][1].should == added_attr.at('//p/@id')
+      expect(changes[0][0]).to eq('+')
+      expect(changes[0][1]).to eq(added_attr.at('//p/@id'))
     end
   end
 
@@ -268,28 +268,28 @@ describe "nokogiri/diff" do
     it "should determine only when text nodes are removed" do
       changes = doc.at('div').diff(removed_text.at('div'), :removed => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '-'
-      changes[0][1].should == doc.at('//p/text()')
+      expect(changes[0][0]).to eq('-')
+      expect(changes[0][1]).to eq(doc.at('//p/text()'))
     end
 
     it "should determine only when elements are removed" do
       changes = doc.at('div').diff(removed_element.at('div'), :removed => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '-'
-      changes[0][1].should == doc.at('//div/p')
+      expect(changes[0][0]).to eq('-')
+      expect(changes[0][1]).to eq(doc.at('//div/p'))
     end
 
     it "should determine only when attributes are removed" do
       changes = added_attr.at('div').diff(removed_attr.at('div'), :removed => true).to_a
 
-      changes.length.should == 1
+      expect(changes.length).to eq(1)
 
-      changes[0][0].should == '-'
-      changes[0][1].should == added_attr.at('//p/@id')
+      expect(changes[0][0]).to eq('-')
+      expect(changes[0][1]).to eq(added_attr.at('//p/@id'))
     end
   end
 end

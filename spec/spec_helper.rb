@@ -1,2 +1,2 @@
-gem 'rspec', '~> 2.4'
+gem 'rspec', '~> 3.0'
 require 'rspec'
