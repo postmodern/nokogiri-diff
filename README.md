@@ -56,6 +56,24 @@ Only find the removed nodes:
     end
 
     #  two                          /div
+    
+## Using DifferenceViewer
+Nokogiri::XML::Node::DifferenceViewer provide the functionality to add css classes on added and removed elements and 
+text into the new document and returns a new document with the custom css classes.
+
+## Example
+
+    require 'nokogiri/diff'
+
+    doc1 = Nokogiri::HTML('<div><p>one</p> two </div>')
+    doc2 = Nokogiri::HTML('<div><p id="1">one</p> <p>three</p></div>')
+    result = Nokogiri::XML::Node::DifferenceViewer.new.difference_view(doc1,doc2)
+    # The result is a Nokogiri doc with custom classes. The classes will be
+    t_style_removed => for Nokogiri::XML::Text removed
+    e_style_removed => for Nokogiri::XML::Element removed
+    t_style_added => for Nokogiri::XML::Test added
+    e_style_added => for Nokogiri::XML::Element added
+    
 
 ## Requirements
 
