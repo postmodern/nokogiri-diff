@@ -1,78 +1,88 @@
 class Nokogiri::XML::Node
-  def difference_view(doc, &block)
-    node_hash ||= {}
-    result_doc = self.clone
-    self.diff(doc) do |change, node|
-      (node_hash[node.parent] ||= []) << {change: change, node: node} if ['+', '-'].include?(change)
+
+  class DifferenceViewer
+    def difference_view(previous_doc, current_doc)
+      doc1 = previous_doc.xpath("/html/body")
+      doc2 = current_doc.xpath("/html/body")
+      compare_nodes(doc1[0], doc2[0])
     end
 
-    node_hash.each do |k, vv|
-      _k_path = k.path
+    def compare_nodes(node1, node2, parent_node = Nokogiri::HTML(''), step =0)
 
-      vv.reverse.each do |v|
-        _nodes = result_doc.xpath(v[:node].path)
-        _node = _nodes[0]
+      if (not (node1.nil? or node2.nil?) and (node1.class == node2.class) and (node1.name == node2.name))
 
-        if v[:change] == "+"
-          if Nokogiri::XML::Attr == v[:node].class
-            _p = result_doc.xpath(doc.xpath(_k_path)[0].path)[0]
-            doc.xpath(_k_path)[0].attributes.each do |attr_name, attr_node|
-              _p.set_attribute(attr_name, attr_node.value)
+        #Creating a new node (of same name) and adding it to parent_node, then updating attributes
+        case node2.class.name
+          when Nokogiri::XML::Element.name
+            _node2 = Nokogiri::XML::Element.new node2.name, parent_node
+            node2.attributes.each do |attr_name, attr|
+              _node2.set_attribute(attr_name, attr.value)
             end
-            add_class(_p, 'diff_attr_added')
-          elsif Nokogiri::XML::Element == v[:node].class
-            _child_index_in_doc = doc.xpath(_k_path).children.collect { |x| x.path }.index(v[:node].path) || 0
-            _t_ccount = result_doc.xpath(_k_path).children.count
-            _child_node = result_doc.xpath(_k_path).children[a = (_child_index_in_doc <= _t_ccount ? _child_index_in_doc : (_t_ccount-1))]
-            if _child_node.nil?
-              #doc3.xpath(_k_path)[0].add_child("<SPAN class='diff_added'>#{v[:node].to_html}</SPAN>")
-              add_class(v[:node], 'diff_added')
-              result_doc.xpath(_k_path)[0].add_child(v[:node].to_html)
+            add_class(_node2, 'style_attrs_modified') unless are_attributes_common?(node1, node2)
+            add_to_parent(parent_node, _node2)
+
+            max_child_node_count = (node1.children.count >= node2.children.count) ? node1.children.count : node2.children.count
+            for i in 1..max_child_node_count
+              compare_nodes(node1.children[i-1], node2.children[i-1], _node2, step+=1)
+            end
+          when Nokogiri::XML::Text.name
+            if node1.to_s == node2.to_s
+              _node2 = Nokogiri::XML::Text.new node2.to_s, parent_node
+              add_to_parent(parent_node, _node2)
             else
-              #_child_node.add_previous_sibling("<SPAN class='diff_added'>#{v[:node].to_html}</SPAN>")
-              add_class(v[:node], 'diff_added')
-              _child_node.add_previous_sibling(v[:node].to_html)
+              _node1 = Nokogiri::XML::Text.new node1.to_s, parent_node
+              add_to_parent(parent_node, _node1, 't_style_removed')
+
+              _node2 = Nokogiri::XML::Text.new node2.to_s, parent_node
+              add_to_parent(parent_node, _node2, 't_style_added')
             end
-          elsif Nokogiri::XML::Text == v[:node].class
-            _child_index_in_doc = doc.xpath(_k_path).children.collect { |x| x.path }.index(v[:node].path) || 0
-            _t_ccount = result_doc.xpath(_k_path).children.count
-            _child_node = result_doc.xpath(_k_path).children[a = (_child_index_in_doc <= _t_ccount ? _child_index_in_doc : (_t_ccount-1))]
-            if _child_node.nil?
-              result_doc.xpath(_k_path)[0].add_child("{{{[#{v[:change]}]#{v[:node].to_html}}}}")
-            else
-              _child_node.add_next_sibling("{{{[#{v[:change]}]#{v[:node].to_html}}}}")
-            end
-          end
-        elsif v[:change] == "-"
-          if Nokogiri::XML::Attr == v[:node].class
-            _p = _node.parent
-            add_class(_p, 'diff_attr_deleted')
-          elsif Nokogiri::XML::Element == v[:node].class
-            add_class(v[:node], 'diff_deleted')
-            _node.replace(v[:node].to_html)
-          elsif Nokogiri::XML::Text == v[:node].class
-            _node.replace("{{{[#{v[:change]}]#{v[:node].to_html}}}}")
-          end
+        end
+      else
+        #puts "Nodes are different"
+        unless node1.nil?
+          add_to_parent(parent_node, node1.clone, 'e_style_removed') if node1.class == Nokogiri::XML::Element
+          add_to_parent(parent_node, node1.clone, 't_style_removed') if node1.class == Nokogiri::XML::Text
+        end
+        unless node2.nil?
+          add_to_parent(parent_node, node2.clone, 'e_style_added') if node2.class == Nokogiri::XML::Element
+          add_to_parent(parent_node, node2.clone, 't_style_added') if node2.class == Nokogiri::XML::Text
         end
       end
-
+      #puts "parent_node_result : #{parent_node}"
+      parent_node
     end
-    if block_given?
-      yield(result_doc)
-    else
-      result_doc
+
+    def add_to_parent(parent_node, child_node, css_class= nil)
+      if child_node.nil?
+      elsif Nokogiri::XML::Element == child_node.class
+        add_class(child_node, css_class) unless css_class.nil?
+        parent_node.add_child(child_node)
+      elsif Nokogiri::XML::Text == child_node.class
+        if css_class.nil?
+          parent_node.add_child(child_node)
+        else
+          parent_node.add_child("<span class='#{css_class}'>#{child_node.to_html}</span>")
+        end
+      else
+        raise 'UnHandlableClassType'
+      end
+    end
+
+    def add_class(node, css_class)
+      node.set_attribute('class', [node.get_attribute('class').to_s.split(' '), css_class].flatten.uniq.compact.join(' '))
+    end
+
+    def are_attributes_common?(node1, node2)
+      _flag_attrs_common = true
+      (node1.attributes.keys + node2.attributes.keys).flatten.uniq.compact.each do |key|
+        _flag_attrs_common = (_flag_attrs_common and if node1.attributes[key].nil? or node2.attributes[key].nil?
+                                                       false
+                                                     else
+                                                       (node1.attributes[key].value == node2.attributes[key].value)
+                                                     end)
+      end
+      _flag_attrs_common
     end
   end
 
-  def formatted_diff_view(doc, added_class = 'added', removed_class = 'removed')
-    difference_view(doc) do |updated_doc|
-      updated_doc.to_html.to_s.split("}}}").collect do |_string|
-        _string.gsub(/{{{\[([+-]+)\]([\x00-\x7F]*)/) { |x| "<span class='#{$1=='+' ? added_class : removed_class}'>#{$2}</span>" }
-      end.join
-    end
-  end
-
-  def add_class(node, css_class)
-    node.set_attribute('class', [node.get_attribute('class').to_s.split(' '), css_class].flatten.uniq.compact.join(' '))
-  end
 end
