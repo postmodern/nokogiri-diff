@@ -25,7 +25,7 @@ class Nokogiri::XML::Node
       when Nokogiri::XML::Text, Nokogiri::XML::Comment
         self.text == node.text
       when Nokogiri::XML::ProcessingInstruction
-        (self.name == node.name && self.content = self.content)
+        (self.name == node.name && self.content == node.content)
       else
         false
       end
