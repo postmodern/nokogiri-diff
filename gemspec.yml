@@ -17,6 +17,4 @@ dependencies:
   nokogiri: ~> 1.5
 
 development_dependencies:
-  rubygems-tasks: ~> 0.1
-  rspec: ~> 3.0
-  yard: ~> 0.7
+  bundler: ~> 1.0
