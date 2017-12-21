@@ -8,5 +8,6 @@ group :development do
   
   gem 'rspec', '~> 3.0'
 
+  gem 'kramdown'
   gem 'yard',  '~> 0.9'
 end
