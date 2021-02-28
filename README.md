@@ -1,5 +1,7 @@
 # nokogiri-diff
 
+[![CI](https://github.com/postmodern/nokogiri-diff/actions/workflows/ruby.yml/badge.svg)](https://github.com/postmodern/nokogiri-diff/actions/workflows/ruby.yml)
+
 * [Source](https://github.com/postmodern/nokogiri-diff)
 * [Issues](https://github.com/postmodern/nokogiri-diff/issues)
 * [Documentation](http://rubydoc.info/gems/nokogiri-diff/frames)
