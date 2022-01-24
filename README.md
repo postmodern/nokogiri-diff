@@ -5,7 +5,6 @@
 * [Source](https://github.com/postmodern/nokogiri-diff)
 * [Issues](https://github.com/postmodern/nokogiri-diff/issues)
 * [Documentation](http://rubydoc.info/gems/nokogiri-diff/frames)
-* [Email](mailto:postmodern.mod3 at gmail.com)
 
 ## Description
 
