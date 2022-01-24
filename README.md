@@ -20,7 +20,7 @@ removed nodes) between two XML/HTML documents.
 
 ## Examples
 
-Enumerate over the the differences between two HTML documents:
+Enumerate over the differences between two HTML documents:
 
 ```ruby
 require 'nokogiri/diff'
