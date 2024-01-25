@@ -67,7 +67,7 @@ end
 ## Requirements
 
 * [ruby](http://www.ruby-lang.org/) >= 2.0.0
-* [tdiff](http://github.com/postmodern/tdiff) ~> 0.3, >= 0.3.2
+* [tdiff](http://github.com/postmodern/tdiff) ~> 0.4
 * [nokogiri](http://nokogiri.rubyforge.org/) ~> 1.5
 
 ## Install

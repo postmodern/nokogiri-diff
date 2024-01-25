@@ -13,7 +13,7 @@ has_yard: true
 required_ruby_version: ">= 2.0.0"
 
 dependencies:
-  tdiff: ~> 0.3, >= 0.3.2
+  tdiff: ~> 0.4
   nokogiri: ~> 1.5
 
 development_dependencies:
