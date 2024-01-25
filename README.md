@@ -78,6 +78,4 @@ $ gem install nokogiri-diff
 
 ## Copyright
 
-Copyright (c) 2010-2012 Hal Brodigan
-
 See {file:LICENSE.txt} for details.
