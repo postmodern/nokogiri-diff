@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'node'
 
 class Nokogiri::XML::Document < Nokogiri::XML::Node
