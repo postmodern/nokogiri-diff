@@ -76,6 +76,6 @@ end
 $ gem install nokogiri-diff
 ```
 
-## Copyright
+## License
 
 See {file:LICENSE.txt} for details.
