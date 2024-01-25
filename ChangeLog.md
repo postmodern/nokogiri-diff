@@ -1,5 +1,7 @@
 ### 0.3.0 / 2024-01-24
 
+* Require [ruby](http://www.ruby-lang.org/) >= 2.0.0.
+* Require [tdiff](http://github.com/postmodern/tdiff) ~> 0.4.
 * Switched to using `require_relative` to improve load-times.
 * Added `# frozen_string_literal: true` to all files.
 
