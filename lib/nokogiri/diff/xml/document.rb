@@ -1,4 +1,4 @@
-require 'nokogiri/diff/xml/node'
+require_relative 'node'
 
 class Nokogiri::XML::Document < Nokogiri::XML::Node
 

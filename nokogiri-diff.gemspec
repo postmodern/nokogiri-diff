@@ -7,10 +7,7 @@ Gem::Specification.new do |gem|
 
   gem.name    = gemspec.fetch('name')
   gem.version = gemspec.fetch('version') do
-                  lib_dir = File.join(File.dirname(__FILE__),'lib')
-                  $LOAD_PATH << lib_dir unless $LOAD_PATH.include?(lib_dir)
-
-                  require 'nokogiri/diff/version'
+                  require_relative 'lib/nokogiri/diff/version'
                   Nokogiri::Diff::VERSION
                 end
 

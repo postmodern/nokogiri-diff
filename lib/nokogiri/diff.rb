@@ -1,2 +1,2 @@
-require 'nokogiri/diff/xml'
-require 'nokogiri/diff/version'
+require_relative 'diff/xml'
+require_relative 'diff/version'
