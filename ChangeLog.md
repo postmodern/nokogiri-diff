@@ -1,3 +1,8 @@
+### 0.3.0 / 2024-01-24
+
+* Switched to using `require_relative` to improve load-times.
+* Added `# frozen_string_literal: true` to all files.
+
 ### 0.2.0 / 2013-04-22
 
 * {Nokogiri::XML::Node#tdiff_each_child} now sorts attributes by name, so that
