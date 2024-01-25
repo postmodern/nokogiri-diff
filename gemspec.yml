@@ -10,7 +10,7 @@ email: postmodern.mod3@gmail.com
 homepage: https://github.com/postmodern/nokogiri-diff#readme
 has_yard: true
 
-required_ruby_version: ">= 1.8.7"
+required_ruby_version: ">= 2.0.0"
 
 dependencies:
   tdiff: ~> 0.3, >= 0.3.2
